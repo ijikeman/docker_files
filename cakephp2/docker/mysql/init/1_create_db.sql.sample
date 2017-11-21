@@ -1,0 +1,2 @@
+CREATE DATABASE cakedb;
+GRANT ALL ON cakedb.* TO cake@'%' IDENTIFIED BY 'cake' WITH GRANT OPTION;

@@ -1,0 +1,21 @@
+version: '2'
+services:
+  cakephp:
+    build: ./docker/cakephp2/
+    ports:
+      - "8080:80"
+    volumes:
+      - ./cakephp/:/var/www/html/src/cakephp
+    depends_on:
+      - db
+  db:
+    restart: always
+    image: mysql:5.7
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d
+    env_file:
+      ./docker/mysql/env
+volumes:
+  mysql-data
+    driver:local
