@@ -1,0 +1,50 @@
+version: '2'
+services:
+  mysql:
+    image: mysql:5.7
+    restart: always
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    volumes:
+      - mysqldb:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    env_file:
+      - docker/mysql/env
+  zabbix-server:
+    image: zabbix/zabbix-server-mysql:alpine-3.4.4
+    restart: always
+    volumes:
+      - zabbix-data:/var/lib/zabbix
+    env_file:
+      - docker/mysql/env
+      - docker/zabbix/env
+    ports:
+      - "10051:10051"
+    depends_on:
+      - mysql
+  zabbix-web:
+    image: zabbix/zabbix-web-nginx-mysql:ubuntu-3.4.4
+    restart: always
+    env_file:
+      - docker/mysql/env
+      - docker/zabbix/env
+    ports:
+      - "10080:80"
+    depends_on:
+      - mysql
+      - zabbix-server
+  zabbix-agent:
+    image: zabbix/zabbix-agent:alpine-latest
+    restart: always
+    env_file:
+      - docker/zabbix/env
+    ports:
+      - "10050:10050"
+    depends_on:
+      - zabbix-server
+    privileged: true
+volumes:
+  mysqldb:
+    driver: local
+  zabbix-data:
+    driver: local
