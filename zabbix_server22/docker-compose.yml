@@ -1,0 +1,15 @@
+version: '2'
+services:
+  zabbix:
+    build: docker/zabbix/
+    env_file:
+      - docker/zabbix/env
+      - docker/mysql/env
+    ports:
+      - "10080:80"
+      - "10051:10051"
+    volumes:
+      - mysqldb:/var/lib/mysql
+volumes:
+  mysqldb:
+    driver: local
