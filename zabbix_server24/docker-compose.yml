@@ -1,22 +1,28 @@
 version: '2'
 services:
-  zabbix-db:
+  zabbix.db:
     image: monitoringartist/zabbix-db-mariadb
     env_file:
       - docker/mariadb/env
     ports:
       - "3306:3306"
     volumes:
-      - zabbix-db:/var/lib/mysql
+      - zabbix.db:/var/lib/mysql
   zabbix:
     image: monitoringartist/zabbix-2.4
     links:
-      - zabbix-db:zabbix.db
+      - zabbix.db
     env_file:
       - docker/zabbix/env
     ports:
       - "80:80"
       - "10051:10051"
+  nginx:
+    build: docker/nginx/.
+#    command: /bin/bash -c "echo 'daemon off;' >> /etc/nginx/nginx.conf && nginx -g 'daemon off;'"  
+    links:
+      - zabbix
+    command: /bin/bash -c "su -c /usr/sbin/zabbix_agentd -s /bin/bash zabbix && nginx -g 'daemon off;'"  
 volumes:
-  zabbix-db:
+  zabbix.db:
     driver: local
