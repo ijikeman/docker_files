@@ -1,0 +1,12 @@
+version: '2'
+services:
+  builder:
+    build: ./centos7
+    tty: true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker:/var/lib/docker
+      - /root/.docker:/root/.docker
+      - /etc/ansible/roles:/etc/ansible/roles
+    privileged: true
+    

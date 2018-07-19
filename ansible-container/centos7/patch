@@ -1,0 +1,10 @@
+--- /usr/lib/python2.7/site-packages/container/docker/engine.py.org	2018-07-10 22:39:33.477008001 +0900
++++ /usr/lib/python2.7/site-packages/container/docker/engine.py	2018-07-10 22:35:45.342589957 +0900
+@@ -198,7 +198,7 @@
+ 
+     @property
+     def secrets_mount_path(self):
+-        return os.path.join(os.sep, 'run', 'secrets')
++        return os.path.join(os.sep, 'docker', 'secrets')
+ 
+     def container_name_for_service(self, service_name):
