@@ -9,3 +9,4 @@ RUN yum install libX11-devel libXcomposite-devel libXcursor-devel libXdamage-dev
 COPY sample.js .
 ENV PUPPETEER_CHROMIUM_REVISION 564778
 RUN source /nvm/nvm.sh && npm i puppeteer
+RUN echo 'source /nvm/nvm.sh' >> /root/.bashrc
