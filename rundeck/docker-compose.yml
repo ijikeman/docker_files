@@ -1,0 +1,13 @@
+version: '2'
+services:
+  rundeck:
+    build: ./rundeck/
+    ports:
+      - "4440:4440"
+    links:
+      - rundeck-node1:rundeck-node1
+  rundeck-node1:
+    build: ./rundeck-node/
+    tty: true
+    privileged: true
+    command: /sbin/init
