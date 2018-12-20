@@ -1,0 +1,27 @@
+version: '2'
+services:
+  web1:
+    image: nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - /C/Users/keiji.uehata/git/docker_files/nginx_l7lb/html/web1:/usr/share/nginx/html
+    command: /bin/bash -c "echo 'daemon off;' >> /etc/nginx/nginx.conf && nginx"
+  web2:
+    image: nginx
+    ports:
+      - "8081:80"
+    volumes:
+      - /C/Users/keiji.uehata/git/docker_files/nginx_l7lb/html/web2:/usr/share/nginx/html
+    command: /bin/bash -c "echo 'daemon off;' >> /etc/nginx/nginx.conf && nginx"
+  lb1:
+    image: nginx
+    volumes:
+      - /C/Users/keiji.uehata/git/docker_files/nginx_l7lb/conf/lb/hoge.conf:/etc/nginx/conf.d/hoge.conf
+#      - /C/Users/keiji.uehata/git/docker_files/nginx_l7lb/conf/lb/conf.d/moge.com.conf:/etc/nginx/conf.d/moge.com.conf
+    ports:
+      - "8082:80"
+    links:
+      - web1:web1
+      - web2:web2
+    command: /bin/bash -c "echo 'daemon off;' >> /etc/nginx/nginx.conf && nginx"
