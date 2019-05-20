@@ -1,0 +1,12 @@
+version: '2'
+services:
+  semaphore:
+    image: docker.io/ansible-semaphore/semaphore
+    links:
+      - mysql-semaphore
+  mysql-semaphore:
+    image: mysql
+    volumes:
+      - /usr/local/docker/mysql-semaphore:/var/lib/mysql
+  
+    
