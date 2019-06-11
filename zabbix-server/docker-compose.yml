@@ -29,7 +29,7 @@ services:
       - docker/mysql/env
       - docker/zabbix/env
     ports:
-      - "10080:80"
+      - "80:80"
     depends_on:
       - mysql
       - zabbix-server
