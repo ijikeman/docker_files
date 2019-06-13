@@ -1,17 +1,18 @@
 FROM centos:latest
 
-RUN yum install epel-release -y
+# Install supervisor
+RUN yum install -y epel-release
 RUN sed -i -e 's/https/http/g' /etc/yum.repos.d/epel.repo
-RUN yum install supervisor -y
+RUN yum install -y supervisor
+
+# Install httpd
+RUN yum install -y httpd
+COPY httpd.ini /etc/supervisord.d/
 
 # STARTUP SSHD
 RUN yum install openssh-server -y
 RUN ssh-keygen -A
 COPY sshd.ini /etc/supervisord.d/sshd.ini
-
-# STARTUP HTTPD
-RUN yum install httpd -y
-COPY httpd.ini /etc/supervisord.d/
 
 # STARTUP RSYSLOGD
 RUN yum install rsyslog -y
