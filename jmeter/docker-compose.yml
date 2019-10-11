@@ -1,0 +1,26 @@
+version: '2'
+services:
+  master:
+    image: vinsdocker/jmmaster
+    container_name: master
+    hostname: master
+    tty: true
+    volumes:
+      - ./:/jmx
+      - ./jmeter.properties:/jmeter/apache-jmeter-3.3/bin/jmeter.properties
+    ports:
+      - 60000:60000
+  slave1:
+    container_name: slave1
+    hostname: slave1
+    image: vinsdocker/jmserver
+    tty: true
+    volumes:
+      - ./:/jmx
+  slave2:
+    container_name: slave2
+    hostname: slave1
+    image: vinsdocker/jmserver
+    tty: true
+    volumes:
+      - ./:/jmx
